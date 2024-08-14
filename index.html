@@ -32,10 +32,14 @@
 
     <!-- Application logic -->
 
+    <script>
+      //  Map
+      var jsElem = window.document.createElement('script');
+      jsElem.src = "https://maps.googleapis.com/maps/api/js?key=" + GOOGLE_MAP_KEY + "&loading=async&callback=initMap";
+      jsElem.type = 'text/javascript';
+      document.getElementById('body').append(jsElem);
+    </script>
 
-    <script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvhHvaEEMasQJPmgfLvhL2jjPx5RaNDvI&loading=async&callback=initMap">
-        </script>
 </body>
 
 </html>
