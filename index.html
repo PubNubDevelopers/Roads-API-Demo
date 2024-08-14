@@ -2,7 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+  <title>PubNub Snap to Roads Demo</title>  
+  <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,
 		initial-scale=1, shrink-to-fit=no" />
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -26,9 +27,24 @@
 </head>
 
 <body id="body" onload="onload();">
-    <div style="height:100%;height: 700px;" id="map">.</div>
-
-
+  <div class="header">
+    <div class="title heading-2">
+    Snap to Roads
+    <div>
+      <button type="button" class="btn pn-btn heading-6" id="btnReload"
+      onclick="window.location.reload();">Reset Demo</button>
+    </div>
+    </div>
+    <div class="instructions text-body-2">
+      <ol class="instructions-list">
+        <li>Click near a road to simulate a vehicle location</li>
+        <li>Keep clicking to follow a route along that road</li>
+        <li>The vehicle position will snap to the road</li>
+        <li><b>Don't click too quickly</b>, Google Maps can't keep up</li>
+      </ol>  
+    </div>
+  </div>
+  <div style="height:85vh" id="map">.</div>
 
     <!-- Application logic -->
 

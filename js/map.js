@@ -4,6 +4,9 @@ var clickedRoute = null;
 async function initMap() {
   // Request libraries when needed, not in the script tag.
   const { Map } = await google.maps.importLibrary("maps");
+  const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary(
+    "marker",
+  );
   // Short namespaces can be used.
   map = new Map(document.getElementById("map"), {
     center: { lat: 40.752655, lng: -73.987295 },
@@ -18,10 +21,22 @@ async function initMap() {
     rotateControl: false,
     gestureHandling: "none",
     clickableIcons: false,
-    draggableCursor: "crosshair"
+    draggableCursor: "crosshair",
+    mapId: "4504f8b37365c3d0"
   });
   map.addListener("click", (event) => {
     //console.log('click')
+
+    const pinElement = new PinElement({
+      borderColor: "#FFFFFF",
+      scale: 0.5
+    });
+    const markerViewBorder = new AdvancedMarkerElement({
+      map,
+      position: { lat: event.latLng.lat(), lng: event.latLng.lng() },
+      content: pinElement.element,
+    });
+
     clickedPoints.push({lat: event.latLng.lat(), lng: event.latLng.lng()})
     updateClickedLine();
     pubnub.signal({
