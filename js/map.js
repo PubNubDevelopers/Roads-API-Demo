@@ -9,7 +9,7 @@ async function initMap() {
   );
   // Short namespaces can be used.
   map = new Map(document.getElementById("map"), {
-    center: { lat: 40.752655, lng: -73.987295 },
+    center: { lat: 40.752655, lng: -73.887295 },
     zoom: 18,
     minZoom: 2,
     //mapTypeId: "OSM",
