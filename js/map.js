@@ -9,7 +9,7 @@ async function initMap() {
   );
   // Short namespaces can be used.
   map = new Map(document.getElementById("map"), {
-    center: { lat: 40.752655, lng: -73.887295 },
+    center: { lat: 32.7979337, lng: -96.8032612 },
     zoom: 18,
     minZoom: 2,
     //mapTypeId: "OSM",
@@ -39,13 +39,10 @@ async function initMap() {
 
     clickedPoints.push({lat: event.latLng.lat(), lng: event.latLng.lng()})
     updateClickedLine();
-    pubnub.signal({
+    pubnub.publish({
       channel: channelName,
-      message: {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-      },
-    });
+      message: clickedPoints.slice(Math.max(clickedPoints.length - 35, 0))
+    })
   });
   //Define OSM map type pointing at the OpenStreetMap tile server
   /*map.mapTypes.set(

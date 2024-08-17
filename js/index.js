@@ -8,13 +8,17 @@ async function onload() {
   channelName = "loc." + pubnub.getUUID();
 
   await pubnub.addListener({
-    signal: async (payload) => {
-      snappedPoints.push({
-        lat: payload.message.lat,
-        lng: payload.message.lng,
-      });
-      updateRoute();
-    },
+    message: async (payload) => {
+      console.log("received message")
+      console.log(payload)
+      if (payload.message && payload.message.snappedPoints)
+      {
+        updateRoute(payload.message.snappedPoints)
+      }
+      else {
+        console.log("Payload does not contain snapped points")
+      }
+    }
   });
 
   //  Wildcard subscribe, to listen for all devices in a scalable manner
@@ -24,12 +28,17 @@ async function onload() {
   });
 }
 
-function updateRoute() {
+function updateRoute(snappedPoints) {
   if (drawnRoute) {
     drawnRoute.setMap(null);
   }
+  var tempPath = []
+  for (var i = 0; i < snappedPoints.length; i++) {
+    tempPath.push({lat: snappedPoints[i].location.latitude, lng: snappedPoints[i].location.longitude})
+  }
+  console.log(tempPath)
   drawnRoute = new google.maps.Polyline({
-    path: snappedPoints,
+    path: tempPath,
     geodesic: true,
     strokeColor: "#CD2026",
   });
