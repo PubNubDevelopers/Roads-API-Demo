@@ -9,8 +9,6 @@ async function onload() {
 
   await pubnub.addListener({
     message: async (payload) => {
-      console.log("received message")
-      console.log(payload)
       if (payload.message && payload.message.snappedPoints)
       {
         updateRoute(payload.message.snappedPoints)
