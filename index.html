@@ -2,59 +2,71 @@
 <html lang="en">
 
 <head>
-  <title>PubNub Snap to Roads Demo</title>  
+  <title>PubNub Snap to Roads Demo</title>
   <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,
+  <meta name="viewport" content="width=device-width,
 		initial-scale=1, shrink-to-fit=no" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-    <!--  Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800" rel="stylesheet">
+  <!--  Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800" rel="stylesheet">
 
-    <!-- Bootstrap and FontAwesome -->
-    <link rel="stylesheet" href="./style/style.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+  <!-- Bootstrap and FontAwesome -->
+  <link rel="stylesheet" href="./style/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
 
-    <!-- PubNub SDK -->
-    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.8.2.7.min.js"></script>
+  <!-- PubNub SDK -->
+  <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.8.2.7.min.js"></script>
 
-    <!-- Application logic -->
-    <script src="./js/keys.js"></script>
-    <script src="./js/map.js"></script>
-    <script src="./js/pubnub.js"></script>
-    <script src="./js/index.js"></script>
+  <!-- Application logic -->
+  <script src="./js/data1.js"></script>
+  <script src="./js/keys.js"></script>
+  <script src="./js/map.js"></script>
+  <script src="./js/pubnub.js"></script>
+  <script src="./js/index.js"></script>
 
 </head>
 
 <body id="body" onload="onload();">
   <div class="header">
     <div class="title heading-2">
-    Snap to Roads
-    <div>
-      <button type="button" class="btn pn-btn heading-6" id="btnReload"
-      onclick="window.location.reload();">Reset Demo</button>
-    </div>
+      Snap to Roads&nbsp;&nbsp;&nbsp;<br>
+      <div style="display:flex;flex-direction:column">
+        <div style="display:flex;align-items:center" class="text-body-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 640 512">
+            <path
+              d="M48 0C21.5 0 0 21.5 0 48L0 368c0 26.5 21.5 48 48 48l16 0c0 53 43 96 96 96s96-43 96-96l128 0c0 53 43 96 96 96s96-43 96-96l32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l0-64 0-32 0-18.7c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7L416 96l0-48c0-26.5-21.5-48-48-48L48 0zM416 160l50.7 0L544 237.3l0 18.7-128 0 0-96zM112 416a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm368-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z" />
+          </svg> &nbsp;&nbsp;The corrected location of the vehicle<br>
+          </div>
+          <div style="display:flex;align-items:center" class="text-body-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 512 512">
+              <path
+                d="M502.6 310l-96.7 96.7a31.9 31.9 0 0 1 -45 0L280.6 326.3l-9.9 9.9a190.6 190.6 0 0 1 -5.4 168.5c-4.5 8.5-16.4 9.6-23.2 2.8L134.5 400.1l-17.8 17.8c.7 2.6 1.6 5 1.6 7.8a32 32 0 1 1 -32-32c2.8 0 5.2 .9 7.8 1.6l17.8-17.8L4.4 269.9c-6.8-6.8-5.7-18.6 2.8-23.2a190.6 190.6 0 0 1 168.5-5.4l9.8-9.8-80.3-80.4a32 32 0 0 1 0-45.1L202 9.3A31.6 31.6 0 0 1 224.5 0a32 32 0 0 1 22.6 9.3l80.3 80.3 47.8-47.9a33.6 33.6 0 0 1 47.5 0l47.5 47.5a33.6 33.6 0 0 1 0 47.5l-47.8 47.9L502.7 265A31.8 31.8 0 0 1 502.6 310zM219.6 197.4l73.8-73.8-68.9-68.9-73.8 73.8zm237.7 90.1-68.9-68.9-73.8 73.8 68.9 68.9z" />
+            </svg> &nbsp;&nbsp;Location from GPS receiver
+        </div>
+      </div>
     </div>
     <div class="instructions text-body-2">
-      <ol class="instructions-list">
-        <li>Click near a road to simulate a vehicle location</li>
-        <li>Keep clicking to follow a route along that road</li>
-        <li>The vehicle position will snap to the road</li>
-        <li><b>Don't click too quickly</b>, Google Maps can't keep up</li>
-      </ol>  
+      <div>
+        <button type="button" class="btn pn-btn heading-6" id="btnStart" onclick="startDemo();">Start Demo</button>
+        <button type="button" class="btn pn-btn pn-btn-white heading-6" id="btnStart" onclick="stopDemo();">Stop
+          Demo</button>
+        <button type="button" class="btn pn-btn pn-btn-white heading-6" id="btnReload"
+          onclick="window.location.reload();">Reset Demo</button>
+      </div>
     </div>
   </div>
   <div style="height:85vh" id="map">.</div>
 
-    <!-- Application logic -->
+  <!-- Application logic -->
 
-    <script>
-      //  Map
-      var jsElem = window.document.createElement('script');
-      jsElem.src = "https://maps.googleapis.com/maps/api/js?key=" + GOOGLE_MAP_KEY + "&loading=async&callback=initMap";
-      jsElem.type = 'text/javascript';
-      document.getElementById('body').append(jsElem);
-    </script>
+  <script>
+    //  Map
+    var jsElem = window.document.createElement('script');
+    jsElem.src = "https://maps.googleapis.com/maps/api/js?key=" + GOOGLE_MAP_KEY + "&loading=async&callback=initMap";
+    jsElem.type = 'text/javascript';
+    document.getElementById('body').append(jsElem);
+  </script>
 
 </body>
 

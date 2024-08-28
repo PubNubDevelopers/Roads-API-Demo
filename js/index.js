@@ -2,16 +2,22 @@ var pubnub = null;
 var channelName = "";
 var snappedPoints = [];
 var drawnRoute = null;
+var progress = 1;
+var data;
+var timerId = 0;
 
 async function onload() {
   pubnub = await createPubNubObject();
   channelName = "loc." + pubnub.getUUID();
 
+  data = gps_coords_1
+  addLocationToMap(data[0].lat, data[0].lng)
+
   await pubnub.addListener({
     message: async (payload) => {
       if (payload.message && payload.message.snappedPoints)
       {
-        updateRoute(payload.message.snappedPoints)
+        updateVehicleRoute(payload.message.snappedPoints)
       }
       else {
         console.log("Payload does not contain snapped points")
@@ -26,19 +32,26 @@ async function onload() {
   });
 }
 
-function updateRoute(snappedPoints) {
-  if (drawnRoute) {
-    drawnRoute.setMap(null);
-  }
-  var tempPath = []
-  for (var i = 0; i < snappedPoints.length; i++) {
-    tempPath.push({lat: snappedPoints[i].location.latitude, lng: snappedPoints[i].location.longitude})
-  }
-  console.log(tempPath)
-  drawnRoute = new google.maps.Polyline({
-    path: tempPath,
-    geodesic: true,
-    strokeColor: "#CD2026",
-  });
-  drawnRoute.setMap(map);
+function startDemo()
+{
+  document.getElementById('btnStart').disabled = true;
+  data = gps_coords_1
+  processPoint(progress)
 }
+
+function stopDemo()
+{
+  document.getElementById('btnStart').disabled = false;
+  clearTimeout(timerId);
+}
+
+function processPoint(iter)
+{
+  if (iter < data.length)
+  {
+    addLocationToMap(data[iter].lat, data[iter].lng)
+    progress++
+    timerId = setTimeout(processPoint, 1000, progress)
+  }
+}
+
