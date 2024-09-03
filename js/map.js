@@ -17,7 +17,7 @@ async function initMap() {
     center: { lat: gps_coords_1[0].lat, lng: gps_coords_1[0].lng },
     zoom: 18,
     minZoom: 2,
-    mapTypeId: BACKEND == "google" ? "roadmap" : "OSM",
+    mapTypeId: BACKEND == "google" ? "roadmap" : "roadmap",
     mapTypeControl: false,
     streetViewControl: false,
     fullscreenControl: false,
