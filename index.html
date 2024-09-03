@@ -30,7 +30,26 @@
 <body id="body" onload="onload();">
   <div class="header">
     <div class="title heading-2">
-      Snap to Roads&nbsp;&nbsp;&nbsp;<br>
+      Interactive Demo&nbsp;&nbsp;&nbsp;<br>
+      <div id="mapChoice" class="text-body-2">
+        Choose your backend directions provider:
+        <br>
+        <input id='radio-google' class="pn-radio" type="radio" name="directions_provider" data-opt="google" onchange="directionsProviderChanged(this);" checked>
+        <label for="google">Google (Snap to Roads API)</label><br>
+        <input id='radio-mapbox' class="pn-radio" type="radio" name="directions_provider" data-opt="mapbox" onchange="directionsProviderChanged(this);">
+        <label for="mapbox">Mapbox (Map Matching)</label><br>
+      </div>
+
+    </div>
+    <div class="instructions text-body-2">
+      <div>
+        <button type="button" class="btn pn-btn heading-6" id="btnStart" onclick="startDemo();">Start Demo</button>
+        <button type="button" class="btn pn-btn pn-btn-white heading-6" id="btnStart" onclick="stopDemo();">Stop
+          Demo</button>
+        <button type="button" class="btn pn-btn pn-btn-white heading-6" id="btnReload"
+          onclick="window.location.reload();">Reset Demo</button>
+      </div>
+      
       <div style="display:flex;flex-direction:column">
         <div style="display:flex;align-items:center" class="text-body-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 640 512">
@@ -45,15 +64,8 @@
             </svg> &nbsp;&nbsp;Location from GPS receiver
         </div>
       </div>
-    </div>
-    <div class="instructions text-body-2">
-      <div>
-        <button type="button" class="btn pn-btn heading-6" id="btnStart" onclick="startDemo();">Start Demo</button>
-        <button type="button" class="btn pn-btn pn-btn-white heading-6" id="btnStart" onclick="stopDemo();">Stop
-          Demo</button>
-        <button type="button" class="btn pn-btn pn-btn-white heading-6" id="btnReload"
-          onclick="window.location.reload();">Reset Demo</button>
-      </div>
+
+
     </div>
   </div>
   <div style="height:85vh" id="map">.</div>

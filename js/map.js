@@ -17,6 +17,7 @@ async function initMap() {
     center: { lat: gps_coords_1[0].lat, lng: gps_coords_1[0].lng },
     zoom: 18,
     minZoom: 2,
+    mapTypeId: BACKEND == "google" ? "roadmap" : "OSM",
     mapTypeControl: false,
     streetViewControl: false,
     fullscreenControl: false,
@@ -28,6 +29,35 @@ async function initMap() {
     draggableCursor: "crosshair",
     mapId: "4504f8b37365c3d0"
   });
+  //Define OSM map type pointing at the OpenStreetMap tile server
+  map.mapTypes.set(
+    "OSM",
+    new google.maps.ImageMapType({
+      getTileUrl: function (coord, zoom) {
+        // "Wrap" x (longitude) at 180th meridian properly
+        // NB: Don't touch coord.x: because coord param is by reference, and changing its x property breaks something in Google's lib
+        var tilesPerGlobe = 1 << zoom;
+        var x = coord.x % tilesPerGlobe;
+        if (x < 0) {
+          x = tilesPerGlobe + x;
+        }
+        // Wrap y (latitude) in a like manner if you want to enable vertical infinite scrolling
+
+        return (
+          "https://tile.openstreetmap.org/" +
+          zoom +
+          "/" +
+          x +
+          "/" +
+          coord.y +
+          ".png"
+        );
+      },
+      tileSize: new google.maps.Size(256, 256),
+      name: "OpenStreetMap",
+      maxZoom: 18,
+    })
+  );
 }
 
 function updateClickedLine() {
@@ -66,7 +96,7 @@ function addLocationToMap(lat, lng) {
   updateClickedLine();
   pubnub.publish({
     channel: channelName,
-    message: clickedPoints.slice(Math.max(clickedPoints.length - 35, 0))
+    message: {"provider": BACKEND, "points": clickedPoints.slice(Math.max(clickedPoints.length - 35, 0))}
   })
 }
 
@@ -82,7 +112,7 @@ function updateVehicleRoute(snappedPoints) {
     path: tempPath,
     geodesic: true,
     strokeColor: "#CD2026",
-    strokeWeight: 2,
+    strokeWeight: 3,
     strokeOpacity: 0.7,
   });
   drawnRoute.setMap(map);
